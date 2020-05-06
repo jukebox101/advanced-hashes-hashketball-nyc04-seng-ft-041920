@@ -1,4 +1,5 @@
 # Write your code below game_hash
+require 'pry'
 def game_hash
   {
     home: {
@@ -126,4 +127,97 @@ def game_hash
   }
 end
 
-# Write code here
+
+# Helper Methods
+def all_player_info
+  game_hash[:home][:players] + (game_hash[:away][:players])
+end
+
+def all_team_info(team)
+  case team
+  when game_hash[:home][:team_name]
+    game_hash[:home]
+  when game_hash[:away][:team_name]
+    game_hash[:away]
+  end
+end
+# Main Methods
+def num_points_scored (player)
+  points_scored = 0
+  
+  all_player_info.each do |item|
+    item.each do |key, value|
+      if value == player
+        points_scored = item.dig(:points)
+      end
+    end
+  end
+  points_scored
+end
+
+def shoe_size(player)
+  size = 0
+  
+  all_player_info.each do |item|
+    item.each do |key, value|
+      if value == player
+        size = item.dig(:shoe)
+      end
+    end
+  end
+  size
+end
+
+def team_colors(teams_name)
+  
+  color_array = all_team_info(teams_name)[:colors]
+  color_array
+end
+
+def team_names
+  names = []
+  
+  names << game_hash.dig(:home, :team_name)
+  names << game_hash.dig(:away, :team_name)
+  names
+end
+
+def player_numbers(teams_name)
+  jersey_numbers = []
+  
+  all_team_info(teams_name)[:players].each do |item|
+    item.each do |key, value|
+      if key == :number
+        jersey_numbers << value
+      end
+    end
+  end
+  jersey_numbers
+end
+
+def player_stats(player)
+
+  all_player_info.each do |item|
+    item.each do |key, value|
+      if value == player
+        return item
+      end
+    end
+  end
+
+end
+
+def big_shoe_rebounds
+  max_shoe_size = 0
+  
+  
+  all_player_info.each do |item|
+    item.each do |key, value|
+      if key == :shoe && max_shoe_size < value
+        max_shoe_size = value
+        player_rebound = item[:rebounds]
+      end
+    end
+  end
+  player_rebound
+end
