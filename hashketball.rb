@@ -209,7 +209,7 @@ end
 
 def big_shoe_rebounds
   max_shoe_size = 0
-  
+  player_rebound = 0
   
   all_player_info.each do |item|
     item.each do |key, value|
